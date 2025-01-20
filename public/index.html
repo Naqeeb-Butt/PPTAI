@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPTAI</title>
+    <link rel="icon" href="PPT-AI.PNG" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <img src="PPT-AI.PNG" alt="PPTAI Logo" class="logo-image">
+            </div>
+            <div class="nav-right">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">English</option>
+                    <option value="zh">简体中文</option>
+                </select>
+                <div class="auth-buttons">
+                    <button class="sign-up-btn" onclick="window.location.href='signup.html'" data-en="Sign Up" data-zh="注册">Sign Up</button>
+                    <button class="sign-in-btn" onclick="window.location.href='signin.html'" data-en="Sign In" data-zh="登录">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="title" data-en="AI PowerPoint Maker" data-zh="AI 幻灯片制作器">AI PowerPoint Maker</h1>
+        <div class="content">
+            <textarea id="promptInput" placeholder="I want a slide deck about..." data-en-placeholder="I want a slide deck about..." data-zh-placeholder="我想要一个关于...的幻灯片"></textarea>
+            <button class="create-slides" data-en="Create Slides" data-zh="创建幻灯片">Create Slides</button>
+            <div id="downloadSection" class="hidden">
+                <p>Click below to download your generated presentation:</p>
+                <a id="downloadLink" class="download-button" href="#" download="Generated_Presentation.pptx">Download Presentation</a>
+            </div>
+        </div>
+    </main>
+        <footer class="footer">
+        <p>&copy; 2025 SloganAI Generator. All rights reserved. Powered by 
+            <a href="mailto:robosoftworks.iot@gmail.com" class="footer-link">RoboSoft Works</a>
+        </p>
+    </footer> 
+    <script type="module">
+        import { signInWithGoogle, signOutUser } from "./register.js";
+    
+        // Attach event listeners for manual sign-in if needed
+        document.querySelector(".google-btn")?.addEventListener("click", signInWithGoogle);
+    </script>
+    <script type="module">
+        import { signUpUser } from "./register.js";
+      
+        document.querySelector("#signup-form").addEventListener("submit", async (event) => {
+          event.preventDefault();
+      
+          const username = document.querySelector("input[placeholder='Full Name']").value;
+          const email = document.querySelector("input[placeholder='Email']").value;
+          const password = document.querySelector("input[placeholder='Password']").value;
+      
+          try {
+            await signUpUser(username, email, password);
+            alert("Signup successful! Please login.");
+            window.location.href = "signin.html";
+          } catch (error) {
+            alert(error.message);
+          }
+        });
+      </script>
+   
+<script src="script.js"></script>
+<script src="register.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
