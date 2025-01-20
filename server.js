@@ -1,38 +1,32 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const path = require("path");
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const PptxGenJS = require("pptxgenjs");
 
-dotenv.config();
-
 const app = express();
-const port = 5000; // Changed to port 5000
+const port = 5000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Define Gemini API Key and URL
 const GEMINI_API_KEY = "AIzaSyC4N2-8iJo75_yw6Yhzcdf0RVTvKNuv6KM";
-const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + GEMINI_API_KEY;
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + GEMINI_API_KEY;
 
 // Endpoint to generate slides
 app.post("/generate-slides", async (req, res) => {
   try {
     const { prompt } = req.body;
-
     if (!prompt) {
       return res.status(400).json({ error: "The 'prompt' field is required." });
     }
 
-    // Predefined payload text with the user-provided content
     const payload = {
       contents: [
         {
           parts: [
             {
-              text: Create a professional PowerPoint presentation for the following content: "${prompt}". Ensure the content is well-structured and clear.,
+              text: `Create a professional PowerPoint presentation for the following content: "${prompt}". Ensure the content is well-structured and clear.`,
             },
           ],
         },
@@ -54,13 +48,12 @@ app.post("/generate-slides", async (req, res) => {
     }
 
     const data = await response.json();
-
     if (!data?.candidates || data.candidates.length === 0) {
       return res.json({ slides: ["No slides generated."] });
     }
 
     const text = data.candidates[0]?.content?.parts?.[0]?.text || "No text available.";
-
+    
     // Split the content into slides based on double newlines
     const slideContents = text.split("\n\n").map((slideText) => slideText.trim());
 
@@ -73,7 +66,7 @@ app.post("/generate-slides", async (req, res) => {
 
     // Generate a base64-encoded file
     const base64File = await ppt.write("base64");
-
+    
     // Send the base64 file content to the frontend
     res.status(200).json({ fileContent: base64File });
   } catch (error) {
@@ -88,6 +81,6 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(Server running at http://localhost:${port});
+app.listen(5000, '0.0.0.0', () => { 
+    console.log('Server is running on port 5000');
 });
