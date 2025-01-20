@@ -7,7 +7,7 @@ const PptxGenJS = require("pptxgenjs");
 dotenv.config();
 
 const app = express();
-const port = 5000;
+const port = 5000; // Changed to port 5000
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -32,7 +32,7 @@ app.post("/generate-slides", async (req, res) => {
         {
           parts: [
             {
-              text: `Create a professional PowerPoint presentation for the following content: "${prompt}". Ensure the content is well-structured and clear.`,
+              text: Create a professional PowerPoint presentation for the following content: "${prompt}". Ensure the content is well-structured and clear.,
             },
           ],
         },
@@ -89,5 +89,5 @@ app.get("/", (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(Server running at http://localhost:${port});
 });
